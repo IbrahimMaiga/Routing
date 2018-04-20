@@ -67,7 +67,7 @@ class Requirements
                     unset($specifies[$name]);
                 }
             } else {
-                throw new RequirementsException(sprintf('%s is not an accepted key'));
+                throw new RequirementsException(sprintf('%s is not an accepted key', $names));
             }
         }
     }
