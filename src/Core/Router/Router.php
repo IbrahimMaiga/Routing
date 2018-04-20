@@ -48,7 +48,7 @@ class Router implements RouterInterface, UrlGeneratorInterface
      * @param Matchable $matcher
      * @param Request|null $request
      */
-    public function __construct($obj, Matchable $matcher = null, Request $request = null)
+    public function __construct($obj, Matchable $matcher, Request $request = null)
     {
         if (!($obj instanceof ConfigurationInterface) and !($obj instanceof ConfigBuilderInterface)) {
             $message = "The parameter %s must be type Routing\\Configuration\\ConfigurationInterface or Routing\\\Builder\\ConfigBuilderInterface";
