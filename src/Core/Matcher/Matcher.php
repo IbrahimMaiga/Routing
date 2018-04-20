@@ -145,4 +145,9 @@ class Matcher implements Matchable
         foreach ($keys as $key) unset($tmp[$key]);
         return $tmp;
     }
+
+    public static function create()
+    {
+        return new self();
+    }
 }
