@@ -88,4 +88,9 @@ class ConfigBuilder implements ConfigBuilderInterface
         }
         throw new BuildException("Error when creating object, check data format");
     }
+
+    public static function createBuilderFromStd(string $file)
+    {
+        return new self(new StdLoader($file));
+    }
 }
