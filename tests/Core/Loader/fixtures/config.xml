@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<routes>
+    <route name="route1">
+        <pattern value="/begin/{id}/{foo}/{bar}"/>
+        <defaults>Class\Namespace\FakeClass:fakeMethod</defaults>
+        <requirements>
+            <requirement name="id">\d+</requirement>
+            <requirement name="foo">\w+</requirement>
+            <requirement name="bar">\w+</requirement>
+        </requirements>
+    </route>
+</routes>

@@ -1,0 +1,7 @@
+# Ignore files
+/vendor/
+/composer.lock
+/example/
+/coverage/
+routing.iml
+.idea/
