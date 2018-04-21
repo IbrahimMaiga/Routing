@@ -10,8 +10,7 @@ namespace Routing\Core;
  */
 class Pattern
 {
-
-    const R_PATTERN = '/{([\w]+)}/';
+    const R_PATTERN = "/{([\w-_]+)}|:([\w-_]+)/";
     const R_REPLACEMENT = '([^/]+)';
 
     /**
