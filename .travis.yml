@@ -10,4 +10,4 @@ cache:
 
 script:
    - composer install
-   - vendor/bin/phpunit
+   - phpunit --configuration phpunit.xml
