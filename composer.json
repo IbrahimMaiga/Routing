@@ -12,7 +12,6 @@
   ],
   "require": {
     "php": ">=7.0.1",
-    "symfony/routing": "^4.0",
     "symfony/http-foundation": "^4.0"
   },
   "require-dev": {
