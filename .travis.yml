@@ -1,6 +1,7 @@
 language: php
 php:
   - '7.0.1'
+  - '7.2'
 
 
 cache:
@@ -9,4 +10,4 @@ cache:
 
 script:
    - composer install
-   - vendor/bin/phpunit
+   - phpunit --configuration phpunit.xml
