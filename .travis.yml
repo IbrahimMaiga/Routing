@@ -11,4 +11,4 @@ cache:
 
 script:
    - composer install
-   - ./vendor/bin/phpunit --configuration phpunit.xml
+   - vendor/bin/phpunit
