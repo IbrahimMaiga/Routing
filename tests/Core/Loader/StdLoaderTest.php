@@ -8,7 +8,6 @@
 namespace Routing\Tests\Core;
 
 
-use Routing\Core\Loader;
 use Routing\Core\StdLoader;
 
 /**
@@ -18,15 +17,19 @@ use Routing\Core\StdLoader;
 class StdLoaderTest extends \PHPUnit_Framework_TestCase
 {
 
-    private $config = array();
     /**
-     * @var Loader
+     * @var array
      */
-    private static $stdLoader;
+    private $configWithBracket = array();
+
+    /**
+     * @var array
+     */
+    private $configWithColon = array();
 
     public function setUp()
     {
-        $this->config = [
+        $this->configWithBracket = [
             'route1' => [
                 'pattern' => [
                     'value' => '/begin/{id}/{foo}/{bar}',
@@ -40,18 +43,35 @@ class StdLoaderTest extends \PHPUnit_Framework_TestCase
             ]
         ];
 
+        $this->configWithColon = [
+            'route1' => [
+                'pattern' => [
+                    'value' => '/begin/:id/:foo/:bar',
+                ],
+                'defaults' => 'Class\Namespace\FakeClass:fakeMethod',
+                'requirements' => [
+                    'id' => '\d+',
+                    'foo' => '\w+',
+                    'bar' => '\w+',
+                ]
+            ]
+        ];
+
     }
 
-    public function testLoad()
+    public function testLoadPatternWithBracket()
     {
-        $this->assertSame($this->config, $this->getLoader()->load());
+        $this->assertSame($this->configWithBracket, $this->getLoader('config')->load());
     }
 
-    private function getLoader()
+    public function testLoadPatternWithColon()
     {
-        if (self::$stdLoader == null) {
-            self::$stdLoader = new StdLoader(FIXTURE_PATH . '/config.php');
-        }
-        return self::$stdLoader;
+        $this->assertSame($this->configWithColon, $this->getLoader('config_wc')->load());
+    }
+
+
+    private function getLoader($config)
+    {
+        return new StdLoader(FIXTURE_PATH . "/$config.php");
     }
 }
