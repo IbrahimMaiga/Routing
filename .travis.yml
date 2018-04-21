@@ -7,8 +7,8 @@ php:
 
 cache:
   directories:
-     - ./vendor
+     - .\vendor
 
 script:
    - composer install
-   - phpunit --configuration phpunit.xml
+   - .\vendor\bin\phpunit --configuration phpunit.xml
