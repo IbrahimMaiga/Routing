@@ -8,13 +8,14 @@
 namespace Routing\Tests\Core;
 
 
+use PHPUnit\Framework\TestCase;
 use Routing\Core\StdLoader;
 
 /**
  * Class StdLoaderTest
  * @package Routing\Tests\Core
  */
-class StdLoaderTest extends \PHPUnit_Framework_TestCase
+class StdLoaderTest extends TestCase
 {
 
     /**
