@@ -11,4 +11,5 @@ cache:
 
 script:
    - composer install
+   - composer dump-autoload -o
    - vendor/bin/phpunit
