@@ -8,6 +8,8 @@
 namespace Routing\Tests\Core;
 
 
+use PHPUnit\Framework\MockObject\MockBuilder;
+use PHPUnit\Framework\TestCase;
 use Routing\Core\ConfigBuilder;
 use Routing\Core\Matcher;
 use Routing\Core\Router;
@@ -20,7 +22,7 @@ use Symfony\Component\HttpFoundation\Request;
  * Class RouterTest
  * @package Routing\Tests\Core
  */
-class RouterTest extends \PHPUnit_Framework_TestCase
+class RouterTest extends TestCase
 {
 
     /**
@@ -29,8 +31,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     private $router;
     private $matcher;
     private $configBuilder;
+
     /**
-     * @var \PHPUnit_Framework_MockObject_MockBuilder
+     * @var MockBuilder
      */
     private static $request;
 

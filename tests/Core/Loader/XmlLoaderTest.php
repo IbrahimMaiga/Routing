@@ -6,6 +6,7 @@
 
 namespace Routing\Tests\Core;
 
+use PHPUnit\Framework\TestCase;
 use Routing\Core\Loader;
 use Routing\Core\XmlLoader;
 
@@ -13,7 +14,7 @@ use Routing\Core\XmlLoader;
  * Class XmlLoaderTest
  * @package Routing\Tests\Core
  */
-class XmlLoaderTest extends \PHPUnit_Framework_TestCase
+class XmlLoaderTest extends TestCase
 {
 
     private $config = array();

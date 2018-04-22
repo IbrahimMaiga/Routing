@@ -8,6 +8,7 @@
 namespace Routing\Tests\Core;
 
 
+use PHPUnit\Framework\TestCase;
 use Routing\Configuration\Configuration;
 use Routing\Core\ConfigBuilder;
 use Routing\Core\ConfigBuilderInterface;
@@ -18,7 +19,7 @@ use Routing\Exception\BuildException;
  * Class ConfigBuilderTest
  * @package Routing\Tests\Core
  */
-class ConfigBuilderTest extends \PHPUnit_Framework_TestCase
+class ConfigBuilderTest extends TestCase
 {
 
     private static $configBuilder;
