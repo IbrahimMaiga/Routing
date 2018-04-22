@@ -8,6 +8,7 @@
 namespace Routing\Tests\Core;
 
 
+use PHPUnit\Framework\TestCase;
 use Routing\Core\Pattern;
 use Routing\Core\Requirements;
 use Routing\Core\Route;
@@ -19,7 +20,7 @@ use Routing\Exception\BuildException;
  * Class RouteBuilderTest
  * @package Routing\Tests\Core
  */
-class RouteBuilderTest extends \PHPUnit_Framework_TestCase
+class RouteBuilderTest extends TestCase
 {
 
     /**
