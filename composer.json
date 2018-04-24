@@ -26,5 +26,7 @@
     "psr-4": {
       "Routing\\Tests\\": "tests/"
     }
-  }
+  },
+  "minimum-stability": "dev-master",
+  "prefer-stable": true
 }
