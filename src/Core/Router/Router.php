@@ -75,13 +75,13 @@ class Router implements RouterInterface, UrlGeneratorInterface
      */
     public function interpret()
     {
-        foreach ($this->routes as $route) {
-            if ($this->matcher->match($route, $this->request)) {
-                $this->current = $route;
-                return $this->matcher->getMatches();
-            }
+        if ($this->matcher->match($this->routes, $this->request)) {
+            $matches = $this->matcher->getMatches();
+            $this->current = array_pop($matches);
+            return $matches;
         }
-        throw new RouteNotFoundException(sprintf('No routes matches this path %s', $this->request->getPathInfo()));
+        throw new RouteNotFoundException(sprintf('No routes matches this path %s',
+            $this->request->getPathInfo()));
     }
 
     /**
