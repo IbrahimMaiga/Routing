@@ -14,11 +14,11 @@ interface Matchable
 
     /**
      * Check if route math has the contained url in request
-     * @param Route $route
+     * @param Route[] $routes
      * @param Request $request
      * @return mixed
      */
-    public function match(Route $route, Request $request);
+    public function match(array $routes, Request $request);
 
     /**
      * Returns True if <code>Route</code> match url
