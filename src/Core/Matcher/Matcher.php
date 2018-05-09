@@ -18,6 +18,11 @@ class Matcher implements Matchable
     /**
      * @var array
      */
+    private static $methods = ['get', 'post', 'put', 'delete'];
+
+    /**
+     * @var array
+     */
     private $matches;
 
     /**
@@ -33,30 +38,60 @@ class Matcher implements Matchable
 
     /**
      * Returns true if route match otherwise false
-     * @param Route $route
+     * @param Route[] $routes
      * @param Request $request
      * @return bool true if match otherwise false
      * @throws \Exception
      */
-    public function match(Route $route, Request $request)
+    public function match(array $routes, Request $request)
     {
-        $url = trim($request->getPathInfo(), '/');
-        $value = $this->replace(trim($route->getPattern()->getValue(), '/'));
+        $matchRoutes = [];
+        foreach ($routes as $route) {
+            $url = trim($request->getPathInfo(), '/');
+            $value = $this->replace(trim($route->getPattern()->getValue(), '/'));
+            if (preg_match($this->formatRegex($value), $url, $params)) {
+                $matchRoutes[] = $route;
+                array_shift($params);
+                $this->params[$route->getName()] = $params;
+            }
+        }
 
-        if (!preg_match($this->formatRegex($value), $url, $params)) {
+        if (empty($matchRoutes)) {
             return false;
         }
 
-        $this->params = $params;
-        array_shift($this->params);
+        /** @var Route $route */
 
-        $this->checkRequirements($route->getRequirements()->getSpecifies(), $this->params);
+        foreach ($matchRoutes as $matchRoute) {
+            $methods = explode('|', $matchRoute->getRequirements()->get('method'));
 
-        $this->checkSchemes($request, $route->getRequirements()->get('scheme'));
-        $this->checkMethod($request, $route->getRequirements()->get('method'));
-        $this->matches = array_merge($route->getDefaults(), ['params' => $this->params]);
+            if (!is_array($methods)) {
+                $methods = [$methods];
+            }
 
-        return $this->matches != null;
+            $route = $matchRoute;
+            if (in_array(strtolower($request->getMethod()), $methods)) {
+                break;
+            }
+        }
+
+        /** @var array $methods */
+        foreach ($methods as $method) {
+            if (!in_array($method, self::$methods)) {
+                throw new \InvalidArgumentException(sprintf('%s not a valid request method', implode(', ', $methods)));
+            }
+        }
+        unset($methods);
+
+        if ($route !== null) {
+            $this->checkRequirements($route->getRequirements()->getSpecifies(), $this->params[$route->getName()]);
+            $this->checkSchemes($request, $route->getRequirements()->get('scheme'));
+            $this->checkMethod($request, $route->getRequirements()->get('method'));
+            $this->matches = array_merge($route->getDefaults(), ['params' => $this->params[$route->getName()]], ['route' => $route]);
+            return $this->matches !== null;
+        }
+
+        return false;
     }
 
     /**
