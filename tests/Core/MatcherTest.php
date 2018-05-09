@@ -87,7 +87,7 @@ class MatcherTest extends TestCase
     public function testMatchWithParams()
     {
         $this->getRequestMock()->method('getPathInfo')->willReturn('/begin/1/foo/bar');
-        $this->assertTrue($this->getMatcher()->match($this->getRoute(), $this->request));
+        $this->assertTrue($this->getMatcher()->match([$this->getRoute()], $this->request));
     }
 
     /**
@@ -97,7 +97,7 @@ class MatcherTest extends TestCase
     public function testNotMatchWithParams()
     {
         $this->getRequestMock()->method('getPathInfo')->willReturn('/begin/1');
-        $this->assertFalse($this->getMatcher()->match($this->getRoute(), $this->request));
+        $this->assertFalse($this->getMatcher()->match([$this->getRoute()], $this->request));
     }
 
     /**
@@ -107,7 +107,7 @@ class MatcherTest extends TestCase
     {
         $route = new Route($this->bar, new Pattern('begin/'), $this->defaults);
         $this->getRequestMock()->method('getPathInfo')->willReturn('/begin');
-        $this->assertTrue($this->getMatcher()->match($route, $this->request));
+        $this->assertTrue($this->getMatcher()->match([$route], $this->request));
     }
 
     /**
@@ -124,7 +124,7 @@ class MatcherTest extends TestCase
         );
 
         $this->getRequestMock()->method('getPathInfo')->willReturn('/begin/1/foo/bar');
-        $this->getMatcher()->match($route, $this->request);
+        $this->getMatcher()->match([$route], $this->request);
     }
 
     /**
@@ -142,7 +142,25 @@ class MatcherTest extends TestCase
         );
 
         $this->getRequestMock()->method('getPathInfo')->willReturn('/begin/1/foo/bar');
-        $this->getMatcher()->match($route, $this->request);
+        $this->getMatcher()->match([$route], $this->request);
+    }
+
+    /**
+     * @throws \Exception
+     */
+    public function testCheckMethodNotExistException(){
+        $this->expectException(\InvalidArgumentException::class);
+        $route = new Route($this->bar, $this->pattern, $this->defaults,
+            new Requirements(array(
+                'id' => '\d+',
+                'foo' => '\w+',
+                'bar' => '\d+',
+                'method' => 'begin'
+            ))
+        );
+
+        $this->getRequestMock()->method('getPathInfo')->willReturn('/begin/1/foo/bar');
+        $this->getMatcher()->match([$route], $this->request);
     }
 
     /**
@@ -155,12 +173,12 @@ class MatcherTest extends TestCase
                 'id' => '\d+',
                 'foo' => '\w+',
                 'bar' => '\d+',
-                'method' => 'begin'
+                'method' => 'post'
             ))
         );
 
         $this->getRequestMock()->method('getPathInfo')->willReturn('/begin/1/foo/bar');
-        $this->getMatcher()->match($route, $this->request);
+        $this->getMatcher()->match([$route], $this->request);
     }
 
     /**
@@ -178,7 +196,7 @@ class MatcherTest extends TestCase
         );
 
         $this->getRequestMock()->method('getPathInfo')->willReturn('/begin/1/foo/bar');
-        $this->getMatcher()->match($route, $this->request);
+        $this->getMatcher()->match([$route], $this->request);
     }
 
     /**
@@ -188,13 +206,13 @@ class MatcherTest extends TestCase
     public function testGetMatches()
     {
         $this->getRequestMock()->method('getPathInfo')->willReturn('/begin/1/foo/bar');
-        $this->getMatcher()->match($this->getRoute(), $this->request);
+        $this->getMatcher()->match([$this->getRoute()], $this->request);
         $params = [
             'controller' => 'Class\Namespace\FakeClass',
             'action' => 'fakeMethod',
             'params' => [1, 'foo', 'bar']
         ];
-        $this->assertEquals($params, $this->getMatcher()->getMatches());
+        $this->assertEquals(array_merge($params, ['route' => $this->getRoute()]), $this->getMatcher()->getMatches());
     }
 
     /**
