@@ -52,7 +52,8 @@ class Requirements
     {
         $this->resolveHttpSpecifies(self::$httpSpecifiesKeys, $specifies);
         $this->urlSpecifies = $specifies;
-        $this->specifies = array_merge($this->urlSpecifies, $this->httpSpecifies);
+        $this->specifies = array_merge(array_combine(self::$httpSpecifiesKeys,
+            [self::$defaultMethod, self::$defaultScheme]), $this->urlSpecifies, $this->httpSpecifies);
     }
 
     private function resolveHttpSpecifies(array $names, array &$specifies)
@@ -63,7 +64,7 @@ class Requirements
                     $ucFirstName = ucfirst($name);
                     $this->httpSpecifies[$name] = self::${"default$ucFirstName"};
                 } else {
-                    $this->httpSpecifies[] = $specifies[$name];
+                    $this->httpSpecifies[$name] = $specifies[$name];
                     unset($specifies[$name]);
                 }
             } else {
